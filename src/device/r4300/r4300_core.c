@@ -300,6 +300,22 @@ int r4300_read_aligned_word(struct r4300_core* r4300, uint32_t address, uint32_t
     return 1;
 }
 
+int dbg_r4300_read_aligned_word(struct r4300_core* r4300, uint32_t address, uint32_t* value)
+{
+    if ((address & UINT32_C(0xc0000000)) != UINT32_C(0x80000000)) {
+        address = virtual_to_physical_address(r4300, address, 3);
+        if (address == 0) {
+            return 0;
+        }
+    }
+
+    address &= UINT32_C(0x1ffffffc);
+
+    mem_read32(mem_get_handler(r4300->mem, address), address & ~UINT32_C(3), value);
+
+    return 1;
+}
+
 /* Read aligned dword from memory */
 int r4300_read_aligned_dword(struct r4300_core* r4300, uint32_t address, uint64_t* value)
 {

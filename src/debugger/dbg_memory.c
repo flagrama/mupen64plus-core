@@ -292,7 +292,7 @@ void write_memory_64_unaligned(struct device* dev, uint32_t addr, uint64_t value
 uint32_t read_memory_32(struct device* dev, uint32_t addr)
 {
     uint32_t value;
-    if (r4300_read_aligned_word(&dev->r4300, addr, &value) == 0)
+    if (dbg_r4300_read_aligned_word(&dev->r4300, addr, &value) == 0)
         return M64P_MEM_INVALID;
     return value;
 }
